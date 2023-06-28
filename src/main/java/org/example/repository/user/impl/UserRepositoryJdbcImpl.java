@@ -1,10 +1,11 @@
-package org.example.repository.impl;
+package org.example.repository.user.impl;
 
 import org.example.exceptions.UserNotFoundException;
 import org.example.model.User;
-import org.example.repository.UserRepository;
+import org.example.repository.user.UserRepository;
 import org.example.util.DatabaseConnection;
 import org.example.util.constants.Message;
+import org.hibernate.Session;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -74,6 +75,10 @@ public class UserRepositoryJdbcImpl implements UserRepository {
     }
 
     @Override
+    public User get(Long id, Session session) throws SQLException {
+        return null;
+    }
+
     public User get(Long id) throws SQLException {
         User user = new User();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * from users WHERE id = ?");

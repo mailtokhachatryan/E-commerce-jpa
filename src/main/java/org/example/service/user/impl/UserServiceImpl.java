@@ -3,13 +3,17 @@ package org.example.service.user.impl;
 
 import org.example.exceptions.UserNotFoundException;
 import org.example.exceptions.ValidationException;
+import org.example.model.Address;
 import org.example.model.User;
-import org.example.repository.UserRepository;
+import org.example.repository.user.UserRepository;
 import org.example.service.user.UserService;
+import org.example.util.HibernateUtil;
 import org.example.util.constants.Message;
 import org.example.util.encoder.MD5Encoder;
 
+import javax.transaction.Transactional;
 import java.sql.SQLException;
+import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
@@ -37,6 +41,22 @@ public class UserServiceImpl implements UserService {
         if (!loginedUser.getPassword().equals(encoded)) {
             throw new ValidationException("Invalid login or password");
         }
+    }
+
+    @Override
+    @Transactional
+    public void printAddresses(Long userId) {
+        var session = HibernateUtil.getSessionFactory().openSession();
+        User user = null;
+        try {
+            user = userRepository.get(userId, session);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(user.getAccount());
+        System.out.println(user.getAddresses());
+        System.out.println(user.getBooks());
+        session.close();
     }
 
     @Override

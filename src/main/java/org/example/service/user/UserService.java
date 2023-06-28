@@ -9,5 +9,7 @@ public interface UserService {
 
     void login(String email, String password) throws Exception;
 
+    void printAddresses(Long userId);
+
     void changePassword(String username, String newPassword, String repeatPassword);
 }

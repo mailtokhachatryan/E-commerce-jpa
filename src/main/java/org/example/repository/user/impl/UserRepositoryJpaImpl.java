@@ -1,7 +1,7 @@
-package org.example.repository.impl;
+package org.example.repository.user.impl;
 
 import org.example.model.User;
-import org.example.repository.UserRepository;
+import org.example.repository.user.UserRepository;
 import org.example.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -39,16 +39,13 @@ public class UserRepositoryJpaImpl implements UserRepository {
     }
 
     @Override
-    public User get(Long id) throws SQLException {
-        Session session = sessionFactory.openSession();
-        User user = session.get(User.class, id);
-        session.close();
-        return user;
+    public List<User> getAll() throws SQLException {
+        return null;
     }
 
     @Override
-    public List<User> getAll() throws SQLException {
-        return null;
+    public User get(Long id, Session session) throws SQLException {
+        return session.get(User.class, id);
     }
 
     @Override
@@ -67,7 +64,7 @@ public class UserRepositoryJpaImpl implements UserRepository {
 
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        User o = get(id);
+        User o = get(id,session);
         session.delete(o);
         transaction.commit();
         session.close();

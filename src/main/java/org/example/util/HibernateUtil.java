@@ -1,5 +1,8 @@
 package org.example.util;
 
+import org.example.model.Account;
+import org.example.model.Address;
+import org.example.model.Book;
 import org.example.model.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -31,8 +34,10 @@ public class HibernateUtil {
 
                 configuration.setProperties(settings);
 
-
                 configuration.addAnnotatedClass(User.class);
+                configuration.addAnnotatedClass(Address.class);
+                configuration.addAnnotatedClass(Account.class);
+                configuration.addAnnotatedClass(Book.class);
 
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(configuration.getProperties()).build();

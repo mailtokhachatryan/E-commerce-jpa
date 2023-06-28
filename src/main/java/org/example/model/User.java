@@ -1,15 +1,17 @@
 package org.example.model;
 
-import jakarta.validation.constraints.*;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
-@ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Entity
 @Table(name = "users")
 public class User {
@@ -18,25 +20,34 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Email
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @NotNull // null
-    @NotEmpty // null, ""
-    @NotBlank // null, "", "        "
     private String name;
 
-    @Min(5)
-    @Max(4)
     private String lastname;
 
-    @Positive
     private double balance;
 
-    @Size(min = 8)
     private String password;
+
     private int age;
+
     private Boolean active;
+
+    @OneToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Account account;
+
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<Address> addresses = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "users_books",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "book_id")}
+    )
+    private List<Book> books = new ArrayList<>();
 
 }
